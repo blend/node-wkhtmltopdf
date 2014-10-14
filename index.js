@@ -58,11 +58,12 @@ function wkhtmltopdf(input, options, callback) {
 
   // call the callback with null error when the process exits successfully
   if (callback)
-    child.on('exit', function() { callback(null); });
+    child.on('close', function() { callback(null); });
 
   // setup error handling
   var stream = child.stdout;
   function handleError(err) {
+    console.log('WE SHOULD BE HANDLING THIS');
     child.removeAllListeners('exit');
     child.kill();
 
