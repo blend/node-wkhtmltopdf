@@ -63,14 +63,7 @@ function wkhtmltopdf(input, options, callback) {
   // setup error handling
   var stream = child.stdout;
   function handleError(err) {
-    console.log('WE SHOULD BE HANDLING THIS');
-    child.removeAllListeners('exit');
-    child.kill();
-
-    // call the callback if there is one
-    if (callback)
-      callback(err);
-
+    console.error(err);
     // if not, or there are listeners for errors, emit the error event
     if (!callback || stream.listeners('error').length > 0)
       stream.emit('error', err);
