@@ -82,5 +82,5 @@ function wkhtmltopdf(input, options, callback) {
   return stream;
 }
 
-wkhtmltopdf.command = 'xvfb-run --server-args="-screen 0, 1024x768x24" wkhtmltopdf';
+wkhtmltopdf.command = 'xvfb-run --auto-servernum --server-args="-screen 0, 1024x768x24" wkhtmltopdf';
 module.exports = wkhtmltopdf;
