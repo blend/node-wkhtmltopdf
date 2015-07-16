@@ -1,6 +1,5 @@
 var spawn = require('child_process').spawn;
 var slang = require('slang');
-var fs = require('fs');
 
 function quote(val) {
   // escape and quote the value if it is a string and this isn't windows
@@ -80,11 +79,11 @@ function wkhtmltopdf(input, options, callback) {
     handleError(new Error((err || '').toString().trim()));
   });
 
-  // write input to stdin if it isn't a url
-  // if (!isUrl)
-  //   child.stdin.end(input);
+  //write input to stdin if it isn't a url
+  if (!isUrl)
+    child.stdin.end(input);
 
-  // return stdout stream so we can pipe
+  //return stdout stream so we can pipe
   return stream;
 }
 
