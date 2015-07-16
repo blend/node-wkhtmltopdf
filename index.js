@@ -37,12 +37,21 @@ function wkhtmltopdf(input, options, callback) {
     if (key !== 'toc' && key !== 'cover' && key !== 'page')
       key = key.length === 1 ? '-' + key : '--' + slang.dasherize(key);
 
-    if (val !== false)
+    if (val !== false && !Array.isArray(val) && !(val instanceof  Object))
       args.push(key);
 
-    // for arrays push all elements into the arguments array individually
+   //TODO: merge in changes from here: https://github.com/terradatum/node-wkhtmltopdf
     if (Array.isArray(val)) {
-      args = args.concat(val);
+      val.forEach(function(v) {
+        args.push(key);
+        args.push(quote(v));
+      });
+    } else if (val instanceof Object) {
+      Object.keys(val).forEach(function(k) {
+        args.push(key);
+        args.push(quote(k));
+        args.push(quote(val[k]));
+      });
     } else if (typeof val !== 'boolean') {
       args.push(quote(val));
     }
