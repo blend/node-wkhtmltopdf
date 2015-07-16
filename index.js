@@ -40,8 +40,12 @@ function wkhtmltopdf(input, options, callback) {
     if (val !== false)
       args.push(key);
 
-    if (typeof val !== 'boolean')
+    // for arrays push all elements into the arguments array individually
+    if (Array.isArray(val)) {
+      args = args.concat(val);
+    } else if (typeof val !== 'boolean') {
       args.push(quote(val));
+    }
   });
   //SZ - patched this to allow file reads from system
   //var isUrl = /^(https?|file):\/\//.test(input);
