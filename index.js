@@ -1,5 +1,6 @@
 var spawn = require('child_process').spawn;
 var slang = require('slang');
+var fs = require('fs');
 
 function quote(val) {
   // escape and quote the value if it is a string and this isn't windows
@@ -47,9 +48,10 @@ function wkhtmltopdf(input, options, callback) {
       args.push(quote(val));
     }
   });
-  //SZ - patched this to allow file reads from system
-  //var isUrl = /^(https?|file):\/\//.test(input);
-  args.push(quote(input));    // stdin if HTML given directly
+
+  //ML - pass in files using the file:/// prefix
+  var isUrl = /^(https?|file):\/\//.test(input);
+  args.push(isUrl ? quote(input) : '-');    // stdin if HTML given directly
   args.push(output ? quote(output) : '-');  // stdout if no output file
 
   if (process.platform === 'win32') {
